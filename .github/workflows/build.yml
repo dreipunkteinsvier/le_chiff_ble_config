@@ -28,10 +28,14 @@ jobs:
         #  cmake-args: (optional) extra arguments to pass to CMake as a string.
         include:
           - board: le_chiff_ble
+            artifact_prefix: schiffer_bleu
+            keyboard_name: "schiffer bleu"
+
     steps:
-      - name: Checkout
+      - name: Checkout (${{ matrix.keyboard_name }})
         uses: actions/checkout@v2
-      - name: Cache west modules
+
+      - name: Cache west modules (${{ matrix.keyboard_name }})
         uses: actions/cache@v2
         env:
           cache-name: cache-zephyr-modules
@@ -49,12 +53,16 @@ jobs:
             ${{ runner.os }}-
         timeout-minutes: 2
         continue-on-error: true
-      - name: Initialize workspace (west init)
+
+      - name: Initialize workspace (west init) (${{ matrix.keyboard_name }})
         run: west init -l ${{ env.config-path }}
-      - name: Update modules (west update)
+
+      - name: Update modules (west update) (${{ matrix.keyboard_name }})
         run: west update
-      - name: Export Zephyr CMake package (west zephyr-export)
+
+      - name: Export Zephyr CMake package (west zephyr-export) (${{ matrix.keyboard_name }})
         run: west zephyr-export
+
       - name: Prepare variables
         id: variables
         run: |
@@ -67,21 +75,20 @@ jobs:
           fi
           echo ::set-output name=shield-arg::${SHIELD_ARG}
           echo ::set-output name=artifact-name::${ARTIFACT_NAME}
-      - name: Build (west build)
+
+      - name: Build (west build) (${{ matrix.keyboard_name }})
         run: |
           west build -s zmk/app -b ${{ matrix.board }} -- \
           ${{ steps.variables.outputs.shield-arg }} \
           -DZMK_CONFIG="${GITHUB_WORKSPACE}/${{ env.config-path }}" \
           ${{ matrix.cmake-args }}
-      # - name: Generated DTS file
-      #   if: always()
-      #   run: cat -n build/zephyr/${{ matrix.board }}.dts.pre.tmp
-      - name: Rename artifacts
+
+      - name: Rename artifacts (${{ matrix.keyboard_name }})
         run: |
           mkdir build/artifacts
-          [ -f build/zephyr/zmk.hex ] && cp build/zephyr/zmk.hex "build/artifacts/${{ steps.variables.outputs.artifact-name }}.hex"
-          [ -f build/zephyr/zmk.uf2 ] && cp build/zephyr/zmk.uf2 "build/artifacts/${{ steps.variables.outputs.artifact-name }}.uf2"
-      - name: Archive artifacts
+          [ -f build/zephyr/zmk.uf2 ] && cp build/zephyr/zmk.uf2 "build/artifacts/${{ matrix.artifact_prefix }}_${{ matrix.board }}.uf2"
+
+      - name: Archive artifacts (${{ matrix.keyboard_name }})
         uses: actions/upload-artifact@v2
         with:
           name: "${{ steps.variables.outputs.artifact-name }}"
