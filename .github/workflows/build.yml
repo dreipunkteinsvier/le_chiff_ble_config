@@ -31,6 +31,10 @@ jobs:
             artifact_prefix: schiffer_bleu
             keyboard_name: "schiffer bleu"
 
+          - board: le_chiff_ble
+            artifact_prefix: schiffer_pink
+            keyboard_name: "schiffer pink"
+
     steps:
       - name: Checkout (${{ matrix.keyboard_name }})
         uses: actions/checkout@v2
