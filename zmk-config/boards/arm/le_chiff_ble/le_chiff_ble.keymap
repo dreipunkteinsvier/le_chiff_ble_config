@@ -9,11 +9,12 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/outputs.h>
 
-#define NUM 1
-#define FUN 2
-#define NAV 3
-#define SET 4
-#define LOC 5
+#define QWR 0
+#define COL 1
+#define NUM 2
+#define FUN 3
+#define NAV 4
+#define SET 5
 
 &lt {
 	quick_tap_ms = <200>;
@@ -62,8 +63,8 @@
 	
 	keymap {
 		compatible = "zmk,keymap";
-		
-		default {
+
+		default_layer {
 			label = "Qwerty";
 //  _____________________________       _____________________________
 // /  Q  |  W  |  E  |  R  |  T  \     /  Y  |  U  |  I  |  O  |  P  \
@@ -75,12 +76,29 @@
 			&kp Q		&kp W		&kp E		&kp R   	&kp T						&kp Y		&kp U		&kp I		&kp O		&kp P
 			&hl LGUI A	&hl LALT S	&hl LCTRL D	&hs LSHFT F	&hl RALT G					&hr RALT H	&hs RSHFT J	&hr RCTRL K	&hr LALT L	&hr LGUI SEMI
 			&kp Z		&kp X		&kp C		&kp V   	&kp B		&kp C_MUTE		&kp N		&kp M		&kp COMMA	&kp DOT		&kp FSLH
-												&lt 4 TAB	&lt 3 RET					&lt 1 SPACE	&lt 2 BSPC
+												&lt SET TAB	&lt NAV RET					&lt NUM SPACE	&lt FUN BSPC
 			>;
 			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
 		};
 
-		numbers {
+		colemak_layer {
+			label = "Colemak";
+//  _____________________________       _____________________________
+// /  Q  |  W  |  F  |  P  |  B  \     /  J  |  L  |  U  |  Y  |  ;  \
+// |  A  |  R  |  S  |  T  |  G  | ___ |  M  |  N  |  E  |  I  |  O  |
+// |  Z  |  X  |  C  |  D  |  V  ||MUT||  K  |  H  |  ,  |  .  |  /  |
+//         \ Set/Tab |  Nav/Ent  /     \  Num/Spc  | Fun/Bspc /
+//          ---------------------       --------------------
+			bindings = <
+			&kp Q		&kp W		&kp F		&kp P   	&kp B						&kp J		&kp L		&kp U		&kp Y		&kp SEMI
+			&hl LGUI A	&hl LALT R	&hl LCTRL S	&hs LSHFT T	&hl RALT G					&hr RALT M	&hs RSHFT N	&hr RCTRL E	&hr LALT I	&hr LGUI O
+			&kp Z		&kp X		&kp C		&kp D   	&kp V		&kp C_MUTE		&kp K		&kp H		&kp COMMA	&kp DOT		&kp FSLH
+												&lt SET TAB	&lt NAV RET					&lt NUM SPACE	&lt FUN BSPC
+			>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+		};
+
+		numbers_layer {
 			label = "Numbers";
 //  _____________________________       _____________________________
 // /  -  |  7  |  8  |  9  |  0  \     /     |     |     |     |     \
@@ -97,7 +115,7 @@
 			sensor-bindings = <&inc_dec_kp PG_UP PG_DN>;
 		};
 		
-		functions {
+		functions_layer {
 			label = "Function";
 //  _____________________________       _____________________________
 // / F12 | F7  | F8  | F9  | PRT \     /     |     |     |     |     \
@@ -114,7 +132,7 @@
 			sensor-bindings = <&inc_dec_kp LC(Z) LC(Y)>;
 		};
 
-		navigation {
+		navigation_layer {
 			label = "Navi";
 //  _____________________________       _____________________________
 // /     |     |     |     |  {  \     /  }  |     |     |     |     \
@@ -131,7 +149,7 @@
 			sensor-bindings = <&inc_dec_kp PG_UP PG_DN>;
 		};
 
-		settings {
+		settings_layer {
 			label = "Settings";
 //  _____________________________       _____________________________
 // /  0  |  1  |  2  |  3  |  4  \     /   5 |   6 |   7 |   8 |  9  \
@@ -142,7 +160,7 @@
 			bindings = <
 			&none	&none	&none	&reset		&none			&out OUT_USB	&out OUT_BLE	&none			&none			&none
 			&none	&none	&none	&bootloader	&none			&bt BT_SEL 0	&bt BT_SEL 1	&bt BT_SEL 2	&bt BT_SEL 3	&bt BT_SEL 4
-			&none	&none	&none	&none		&none	&none	&none			&none			&bt BT_PRV		&bt BT_NXT		&bt BT_CLR
+			&none	&none	&none	&none		&none	&none	&to 0			&to 1			&bt BT_PRV		&bt BT_NXT		&bt BT_CLR
 									&none		&none			&none			&none
 			>;
 			sensor-bindings = <&inc_dec_kp PG_UP PG_DN>;
