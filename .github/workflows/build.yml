@@ -85,6 +85,7 @@ jobs:
           west build -s zmk/app -b ${{ matrix.board }} -- \
           ${{ steps.variables.outputs.shield-arg }} \
           -DZMK_CONFIG="${GITHUB_WORKSPACE}/${{ env.config-path }}" \
+          -DCONFIG_ZMK_KEYBOARD_NAME="\"${{ matrix.keyboard_name }}\"" \
           ${{ matrix.cmake-args }}
 
       - name: Rename artifacts (${{ matrix.keyboard_name }})
