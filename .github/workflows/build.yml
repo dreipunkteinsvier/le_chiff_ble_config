@@ -1,18 +1,11 @@
-name: Build
-
-env:
-  config-path: zmk-config
+name: le_chiff_ble build
 
 on:
   push:
-    paths:
-      - ".github/workflows/build.yml"
-      - "zmk-config/**"
   pull_request:
-    paths:
-      - ".github/workflows/build.yml"
-      - "zmk-config/**"
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
 
 jobs:
   build:
