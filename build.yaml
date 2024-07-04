@@ -1,12 +1,12 @@
 include:
   - board: le_chiff_ble
-    artifact_prefix: schiffer_bleu
+    artifact-name: schiffer_bleu
     keyboard_name: "schiffer bleu"
 
   - board: le_chiff_ble
-    artifact_prefix: schiffer_pink
+    artifact-name: schiffer_pink
     keyboard_name: "schiffer pink"
 
   - board: le_chiff_ble
-    artifact_prefix: schiffer_gelb
+    artifact-name: schiffer_gelb
     keyboard_name: "schiffer gelb"
